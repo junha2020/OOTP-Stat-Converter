@@ -22,6 +22,10 @@ public class StatConversionService {
         double origSo = input.getSo() != null ? input.getSo() : 0;
         double origSb = input.getSb() != null ? input.getSb() : 0;
 
+        // 원본 비율 지표 연산
+        // TODO: 여기서부터 하세요
+
+
         double origBa = origH / origAb;
         double baPenalty = 0.040;
         double tripleMult = 0.5;

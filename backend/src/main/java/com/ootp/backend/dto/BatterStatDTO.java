@@ -22,5 +22,17 @@ public class BatterStatDTO {
     private Integer so;
     private Integer sb;
 
-    private Double avg; // 계산된 타율
+    // 백엔드 산출 원본 비율 지표
+    private Double origAvg;
+    private Double origObp;
+    private Double origSlg;
+    private Double origOps;
+    private Double origBabip;
+
+    // 백엔드 산출 MLB 비율 지표
+    private Double mlbAvg;
+    private Double mlbObp;
+    private Double mlbSlg;
+    private Double mlbOps;
+    private Double mlbBabip;
 }
