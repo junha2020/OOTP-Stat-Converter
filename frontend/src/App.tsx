@@ -186,7 +186,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Input Form Gird */}
+        {/* Input Form grid */}
         <div className="bg-slate-800/80 border border-slate-700/80 p-6 rounded-2xl shadow-xl backdrop-blue-sm">
           <h2 className="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -194,7 +194,7 @@ export default function App() {
           </h2>
 
           {mode === "batter" ? (
-            <div className="grid gird-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
               {(
                 [
                   { label: "AB (타수)", name: "ab" },
@@ -227,7 +227,7 @@ export default function App() {
               ))}
             </div>
           ) : (
-            <div className="grid gird-cols-2 sm:grid-cols-3 md-grid-cols-7 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md-grid-cols-7 gap-4">
               {(
                 [
                   { label: "IP (이닝)", name: "ip", type: "text" },
@@ -278,13 +278,13 @@ export default function App() {
               </span>
             </h2>
 
-            <div className="grid gird-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Left: Original */}
               <div className="bg-slate-900/90 p-5 rounded-xl border border-slate-700 space-y-4">
                 <h3 className="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wider">
                   Original ({league})
                 </h3>
-                <div className="gird gird-cols-3 gap-3 font-mono text-sm">
+                <div className="grid grid-cols-3 gap-3 font-mono text-sm">
                   {mode === "batter" ? (
                     <>
                       <div>
@@ -360,7 +360,7 @@ export default function App() {
 
                 {/* 원본 비율 지표 */}
                 {mode === "batter" && batterResult ? (
-                  <div className="pt-3 border-t border-slate-800 gird gird-cols-2 gap-2 text-xs font-mono text-slate-300">
+                  <div className="pt-3 border-t border-slate-800 grid grid-cols-2 gap-2 text-xs font-mono text-slate-300">
                     <div>
                       AVG:{" "}
                       <span className="text-emerald-400 font-bold">
@@ -393,7 +393,7 @@ export default function App() {
                     </div>
                   </div>
                 ) : pitcherResult ? (
-                  <div className="pt-3 border-t border-slate-800 gird gird-cols-3 gap-2 text-xs font-mono text-slate-300">
+                  <div className="pt-3 border-t border-slate-800 grid grid-cols-3 gap-2 text-xs font-mono text-slate-300">
                     <div>
                       ERA:{" "}
                       <span className="text-emerald-400 font-bold">
@@ -497,7 +497,7 @@ export default function App() {
 
                 {/* 비율 지표 전용 박스 */}
                 {mode === "batter" && batterResult ? (
-                  <div className="pt-3 border-t border-emerald-900/60 gird gird-cols-2 gap-2 text-xs font-mono text-emerald-300">
+                  <div className="pt-3 border-t border-emerald-900/60 grid grid-cols-2 gap-2 text-xs font-mono text-emerald-300">
                     <div>
                       AVG:{" "}
                       <span className="text-emerald-400 font-bold">
@@ -530,7 +530,7 @@ export default function App() {
                     </div>
                   </div>
                 ) : pitcherResult ? (
-                  <div className="pt-3 border-t border-emerald-900/60 grid gird-cols-3 gap-2 text-xs font-mono text-emerald-300">
+                  <div className="pt-3 border-t border-emerald-900/60 grid grid-cols-3 gap-2 text-xs font-mono text-emerald-300">
                     <div>
                       ERA:{" "}
                       <span className="text-emerald-400 font-bold">
