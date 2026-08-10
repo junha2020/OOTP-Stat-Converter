@@ -8,6 +8,11 @@ import {
 } from "./types/stat";
 import axios from "axios";
 
+// 백엔드 API 주소
+const API_BASE_URL = import.meta.env.DEV
+  ? "http://localhost:8080"
+  : "https://ootp-stat-converter.onrender.com";
+
 type ModeType = "batter" | "pitcher";
 
 export default function App() {
@@ -83,13 +88,13 @@ export default function App() {
     try {
       if (mode === "batter") {
         const response = await axios.post<BatterStatResult>(
-          "http://localhost:8080/api/convert/batter",
+          `${API_BASE_URL}/api/convert/batter`,
           { ...batterInput, league },
         );
         setBatterResult(response.data);
       } else {
         const response = await axios.post<PitcherStatResult>(
-          "http://localhost:8080/api/convert/pitcher",
+          `${API_BASE_URL}/api/convert/pitcher`,
           { ...pitcherInput, league },
         );
         setPitcherResult(response.data);
