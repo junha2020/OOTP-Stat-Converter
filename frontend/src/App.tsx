@@ -8,12 +8,14 @@ import {
 } from "./types/stat";
 import axios from "axios";
 
+type ModeType = "batter" | "pitcher";
+
 export default function App() {
-  const [mode, setMode] = useState("batter"); // batter | pitcher
-  const [league, setLeague] = useState("KBO");
+  const [mode, setMode] = useState<ModeType>("batter"); // batter | pitcher
+  const [league, setLeague] = useState<LeagueType>("KBO");
 
   // Batter state
-  const [batterInput, setBatterInput] = useState({
+  const [batterInput, setBatterInput] = useState<BatterStatInput>({
     ab: 450,
     h: 135,
     doubleBase: 25,
@@ -26,13 +28,14 @@ export default function App() {
   });
 
   // Pitcher state
-  const [pitcherInput, setPitcherInput] = useState({
+  const [pitcherInput, setPitcherInput] = useState<PitcherStatInput>({
     ip: "150.1",
     h: 130,
     hr: 15,
     bb: 45,
     hbp: 6,
     so: 140,
+    er: 55,
   });
 
   const [batterResult, setBatterResult] = useState<BatterStatResult | null>(
@@ -83,7 +86,7 @@ export default function App() {
           "http://localhost:8080/api/convert/batter",
           { ...batterInput, league },
         );
-        setBatterInput(response.data);
+        setBatterResult(response.data);
       } else {
         const response = await axios.post<PitcherStatResult>(
           "http://localhost:8080/api/convert/pitcher",
@@ -113,7 +116,7 @@ export default function App() {
             ⚾ OOTP Stat Converter
           </h1>
           <p className="text-slate-400 text-sm mt-1">
-            Sabermetric League Equivalency (MLE)
+            Sabermetric League Equivalency (MLE) - React + TS + Tailwind v4
           </p>
         </div>
         <div className="text-right hidden sm:block">
@@ -219,7 +222,7 @@ export default function App() {
               ))}
             </div>
           ) : (
-            <div className="grid gird-cols-2 sm:grid-cols-3 md-grid-cols-6 gap-4">
+            <div className="grid gird-cols-2 sm:grid-cols-3 md-grid-cols-7 gap-4">
               {(
                 [
                   { label: "IP (이닝)", name: "ip", type: "text" },
@@ -228,6 +231,7 @@ export default function App() {
                   { label: "BB (볼넷)", name: "bb", type: "number" },
                   { label: "HBP (사구)", name: "hbp", type: "number" },
                   { label: "SO (탈삼진)", name: "so", type: "number" },
+                  { label: "ER (자책점)", name: "er", type: "number" },
                 ] as const
               ).map((field) => (
                 <div key={field.name} className="flex flex-col gap-1">
@@ -265,17 +269,17 @@ export default function App() {
             <h2 className="text-xl font-bold text-emerald-400 flex items-center justify-between">
               <span>MLB 환산 결과 비교</span>
               <span className="text-xs text-slate-400 font-normal">
-                Strict Type Checked
+                Symmetric Sabermetrics View
               </span>
             </h2>
 
-            <div className="grid gird-cols-1 md:grid-cols-2 gap-4">
-              {/* Original */}
-              <div className="bg-slate-900/90 p-4 rounded-xl border border-slate-700">
+            <div className="grid gird-cols-1 md:grid-cols-2 gap-6">
+              {/* Left: Original */}
+              <div className="bg-slate-900/90 p-5 rounded-xl border border-slate-700 space-y-4">
                 <h3 className="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wider">
                   Original ({league})
                 </h3>
-                <div className="gird gird-cols-3 gap-2 font-mono text-sm">
+                <div className="gird gird-cols-3 gap-3 font-mono text-sm">
                   {mode === "batter" ? (
                     <>
                       <div>
@@ -341,13 +345,74 @@ export default function App() {
                         <span className="text-slate-500">SO:</span>{" "}
                         {pitcherInput.so}
                       </div>
+                      <div>
+                        <span className="text-slate-500">ER:</span>{" "}
+                        {pitcherInput.er}
+                      </div>
                     </>
                   )}
                 </div>
+
+                {/* 원본 비율 지표 */}
+                {mode === "batter" && batterResult ? (
+                  <div className="pt-3 border-t border-slate-800 gird gird-cols-2 gap-2 text-xs font-mono text-slate-300">
+                    <div>
+                      AVG:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        .{Math.round((batterResult.origAvg || 0) * 1000)}
+                      </span>
+                    </div>
+                    <div>
+                      OBP:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        .{Math.round((batterResult.origObp || 0) * 1000)}
+                      </span>
+                    </div>
+                    <div>
+                      SLG:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        .{Math.round((batterResult.origSlg || 0) * 1000)}
+                      </span>
+                    </div>
+                    <div>
+                      OPS:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        .{Math.round((batterResult.origOps || 0) * 1000)}
+                      </span>
+                    </div>
+                    <div className="col-span-2">
+                      BABIP:{" "}
+                      <span className="text-cyan-400 font-bold">
+                        .{Math.round((batterResult.origBabip || 0) * 1000)}
+                      </span>
+                    </div>
+                  </div>
+                ) : pitcherResult ? (
+                  <div className="pt-3 border-t border-slate-800 gird gird-cols-3 gap-2 text-xs font-mono text-slate-300">
+                    <div>
+                      ERA:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        {pitcherResult.origEra?.toFixed(2) ?? "N/A"}
+                      </span>
+                    </div>
+                    <div>
+                      WHIP:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        {pitcherResult.origWhip?.toFixed(2) ?? "N/A"}
+                      </span>
+                    </div>
+                    <div>
+                      FIP:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        {pitcherResult.origFip?.toFixed(2) ?? "N/A"}
+                      </span>
+                    </div>
+                  </div>
+                ) : null}
               </div>
 
-              {/* Converted MLB */}
-              <div className="bg-emerald-950/30 p-4 rounded-xl border border-emerald-500/30">
+              {/* Right: Converted MLB */}
+              <div className="bg-emerald-950/30 p-5 rounded-2xl border border-emerald-500/30 space-y-4">
                 <h3 className="text-sm font-semibold text-emerald-400 mb-3 uppercase tracking-wider">
                   Converted (MLB)
                 </h3>
@@ -417,9 +482,70 @@ export default function App() {
                         <span className="text-slate-500">SO:</span>{" "}
                         {pitcherResult.so}
                       </div>
+                      <div>
+                        <span className="text-slate-500">ER:</span>{" "}
+                        {pitcherResult.er}
+                      </div>
                     </>
                   ) : null}
                 </div>
+
+                {/* 비율 지표 전용 박스 */}
+                {mode === "batter" && batterResult ? (
+                  <div className="pt-3 border-t border-emerald-900/60 gird gird-cols-2 gap-2 text-xs font-mono text-emerald-300">
+                    <div>
+                      AVG:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        .{Math.round((batterResult.mlbAvg || 0) * 1000)}
+                      </span>
+                    </div>
+                    <div>
+                      OBP:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        .{Math.round((batterResult.mlbObp || 0) * 1000)}
+                      </span>
+                    </div>
+                    <div>
+                      SLG:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        .{Math.round((batterResult.mlbSlg || 0) * 1000)}
+                      </span>
+                    </div>
+                    <div>
+                      OPS:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        .{Math.round((batterResult.mlbOps || 0) * 1000)}
+                      </span>
+                    </div>
+                    <div className="col-span-2">
+                      BABIP:{" "}
+                      <span className="text-cyan-400 font-bold">
+                        .{Math.round((batterResult.mlbBabip || 0) * 1000)}
+                      </span>
+                    </div>
+                  </div>
+                ) : pitcherResult ? (
+                  <div className="pt-3 border-t border-emerald-900/60 grid gird-cols-3 gap-2 text-xs font-mono text-emerald-300">
+                    <div>
+                      ERA:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        {pitcherResult.mlbEra?.toFixed(2) ?? "N/A"}
+                      </span>
+                    </div>
+                    <div>
+                      WHIP:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        {pitcherResult.mlbWhip?.toFixed(2) ?? "N/A"}
+                      </span>
+                    </div>
+                    <div>
+                      FIP:{" "}
+                      <span className="text-emerald-400 font-bold">
+                        {pitcherResult.mlbFip?.toFixed(2) ?? "N/A"}
+                      </span>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

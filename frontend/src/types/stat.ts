@@ -16,11 +16,12 @@ export interface BatterStatInput {
 export interface PitcherStatInput {
   league?: LeagueType;
   ip: string;
-  h: number | "";
-  hr: number | "";
-  bb: number | "";
-  hbp: number | "";
-  so: number | "";
+  h: number | string;
+  hr: number | string;
+  bb: number | string;
+  hbp: number | string;
+  so: number | string;
+  er: number | string; // 자책점
 }
 
 export interface BatterStatResult {
@@ -34,7 +35,20 @@ export interface BatterStatResult {
   hbp: number;
   so: number;
   sb: number;
-  avg?: number;
+
+  // 백엔드 원본 비율 지표
+  origAvg?: number;
+  origObp?: number;
+  origSlg?: number;
+  origOps?: number;
+  origBabip?: number;
+
+  // 백엔드 산출 MLB 환산 비율
+  mlbAvg?: number;
+  mlbObp?: number;
+  mlbSlg?: number;
+  mlbOps?: number;
+  mlbBabip?: number;
 }
 
 export interface PitcherStatResult {
@@ -45,4 +59,15 @@ export interface PitcherStatResult {
   bb: number;
   hbp: number;
   so: number;
+  er: number;
+
+  // 백엔드 원본 이율 지표
+  origEra?: number;
+  origWhip?: number;
+  origFip?: number;
+
+  // 백엔드 산출 MLB 환산 비율
+  mlbEra?: number;
+  mlbWhip?: number;
+  mlbFip?: number;
 }
