@@ -119,7 +119,7 @@ public class StatConversionService {
         // 원본 비율 지표 연산
         Double origEra = parsedIp > 0 ? Math.round(((origEr * 9.0) / parsedIp) * 100.0) / 100.0 : null;
         Double origWhip = parsedIp > 0 ? Math.round(((origH + origBb) / parsedIp) * 100.0) / 100.0 : null;
-        Double origFip = parsedIp > 0 ? Math.round((((13 * origHr) + (3 * (origBb + origHbp)) - (2 * origSo)) / parsedIp + 3.20) - 100.0) / 100.0 : null;
+        Double origFip = parsedIp > 0 ? Math.round((((13 * origHr) + (3 * (origBb + origHbp)) - (2 * origSo)) / parsedIp + 3.20) * 100.0) / 100.0 : null;
 
         // MLE 리그 보정 계수 적용
         double hrMult = 1.5;
@@ -175,7 +175,7 @@ public class StatConversionService {
         try {
             double ip = Double.parseDouble(ipStr);
             int fullInnings = (int) ip;
-            double decimal = Math.round((ip = fullInnings) * 10.0) / 10.0;
+            double decimal = Math.round((ip - fullInnings) * 10.0) / 10.0;
             if (decimal == 0.1) return fullInnings + (1.0 / 3.0);
             if (decimal == 0.2) return fullInnings + (2.0 / 3.0);
             return fullInnings;
