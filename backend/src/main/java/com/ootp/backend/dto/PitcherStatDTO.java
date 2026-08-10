@@ -25,7 +25,7 @@ public class PitcherStatDTO {
     private Double origWhip;
     private Double origFip;
 
-    // 벡엔드 산출 MLB 환산 치표
+    // 백엔드 산출 MLB 환산 치표
     private Double mlbEra;
     private Double mlbWhip;
     private Double mlbFip;
