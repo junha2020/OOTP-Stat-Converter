@@ -1,0 +1,53 @@
+# ==========================================                                                            
+# macOS & System junk                                                                                   
+# ==========================================                                                            
+.DS_Store                                                                                               
+.DS_Store?                                                                                              
+._*                                                                                                     
+.Spotlight-V100                                                                                         
+.Trashes                                                                                                
+ehthumbs.db                                                                                             
+Thumbs.db                                                                                               
+                                                                                                           
+# ==========================================                                                            
+# IDEs & Editors (IntelliJ, VS Code, Eclipse)                                                           
+# ==========================================                                                            
+.idea/                                                                                                  
+*.iml                                                                                                   
+*.ipr                                                                                                   
+*.iws                                                                                                   
+.vscode/                                                                                                
+*.sublime-project                                                                                       
+*.sublime-workspace                                                                                     
+                                                                                                            
+# ==========================================                                                            
+# Java / Spring Boot / Gradle (Backend)                                                                 
+# ==========================================                                                            
+backend/.gradle/                                                                                        
+backend/build/                                                                                          
+backend/out/                                                                                            
+backend/bin/                                                                                            
+backend/.settings/                                                                                      
+backend/.classpath                                                                                      
+backend/.project                                                                                        
+*.log                                                                                                   
+                                                                                                            
+# ==========================================                                                            
+# Node / React / Vite / TypeScript (Frontend)                                                           
+# ==========================================                                                            
+frontend/node_modules/                                                                                  
+frontend/dist/                                                                                          
+frontend/dist-ssr/                                                                                      
+frontend/*.local                                                                                        
+frontend/npm-debug.log*                                                                                 
+frontend/yarn-debug.log*                                                                                
+frontend/pnpm-debug.log*                                                                                
+                                                                                                            
+# ==========================================                                                            
+# Environment Variables & Secrets (보안)                                                                
+# ==========================================                                                            
+.env                                                                                                    
+.env.local                                                                                              
+.env.development.local                                                                                  
+.env.test.local                                                                                         
+.env.production.local 
