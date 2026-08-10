@@ -2,24 +2,22 @@
 FROM eclipse-temurin:17-jdk-alpine AS builder
 WORKDIR /app
 
-# Gradle 래퍼 및 설정 파일 복사
-COPY gradlew .
-COPY gradle gradle
-COPY build.gradle .
-COPY settings.gradle .
-COPY src src
+# 프로젝트 전체 복사
+COPY . .
 
-# gradlew 실행 권한 부여 및 JAR 빌드 (테스트 제외)
-RUN chmod +x ./gradlew
+# 🔹 [치트키] 윈도우용 줄바꿈(\r) 싹 제거 + gradlew 실행 권한 부여
+RUN sed -i 's/\r$//' ./gradlew && chmod +x ./gradlew
+
+# Gradle 빌드 실행 (테스트 제외)
 RUN ./gradlew build -x test --no-daemon
 
-# 2단계: 실행 환경 (JRE 17 Alpine - 경량화)
+# 2단계: 실행 환경 (JRE 17 Alpine)
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
-# 빌드 단계에서 생성된 JAR 파일 복사
+# 빌드된 JAR 파일 복사
 COPY --from=builder /app/build/libs/*.jar app.jar
 
-# 8080 포트 노출 및 앱 실행
+# 8080 포트 노출 및 실행
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
